@@ -1,4 +1,4 @@
-import {ModelerViewer} from "./ModelerViewer";
+import {Modeler} from "./ModelerViewer";
 import {Home} from "./Home";
 import React from "react";
 import {Route, Switch} from "react-router-dom";
@@ -9,7 +9,7 @@ export function Routes() {
         <Switch>
             <Route path="/about"/>
             <Route path="/modeler">
-                <ModelerViewer/>
+                <Modeler/>
             </Route>
             <Route path="/home">
                 <Home/>
