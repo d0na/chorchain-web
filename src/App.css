@@ -1,0 +1,390 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+/* line 1, styles/app.less */
+* {
+  box-sizing: border-box;
+}
+/* line 5, styles/app.less */
+body,
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333333;
+  font-size: 12px;
+  height: 100%;
+  max-height: 100%;
+  padding: 0;
+  margin: 0;
+}
+/* line 17, styles/app.less */
+a {
+  text-decoration: none;
+  color: #333333;
+}
+/* line 22, styles/app.less */
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+/* line 28, styles/app.less */
+.content #canvas {
+  flex-grow: 1;
+}
+/* line 32, styles/app.less */
+.content > .message {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: table;
+  font-size: 16px;
+  color: #111;
+}
+/* line 41, styles/app.less */
+.content > .message .note {
+  vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+}
+/* line 48, styles/app.less */
+.content > .message.error .details {
+  max-width: 500px;
+  font-size: 12px;
+  margin: 20px auto;
+  text-align: left;
+  color: #BD2828;
+}
+/* line 56, styles/app.less */
+.content > .message.error pre {
+  border: solid 1px #BD2828;
+  background: #fefafa;
+  padding: 10px;
+  color: #BD2828;
+}
+/* line 65, styles/app.less */
+.content:not(.with-error) .error,
+.content.with-error .intro,
+.content.with-diagram .intro {
+  display: none;
+}
+/* line 71, styles/app.less */
+.content .canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/* line 79, styles/app.less */
+.content .canvas {
+  display: none;
+}
+/* line 84, styles/app.less */
+.content.with-diagram .canvas {
+  display: block;
+}
+/* line 90, styles/app.less */
+.buttons {
+  display: flex;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 0;
+  margin: 0;
+}
+/* line 98, styles/app.less */
+.buttons * {
+  margin-right: 10px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 26px;
+}
+/* line 106, styles/app.less */
+.buttons .divider {
+  width: 1px;
+  border-left: 1px solid #DDD;
+}
+/* line 111, styles/app.less */
+.buttons a,
+.buttons button {
+  display: block;
+  width: 40px;
+  padding: 0px;
+  background-color: #FAFAFA;
+  border: solid 1px #CCC;
+  border-radius: 2px;
+}
+/* line 120, styles/app.less */
+.buttons a.active:hover,
+.buttons button:hover {
+  color: #FF7400;
+}
+/* line 124, styles/app.less */
+.buttons .selected {
+  background-color: #d3d3d3;
+}
+/* line 128, styles/app.less */
+.buttons button {
+  cursor: pointer;
+}
+/* line 132, styles/app.less */
+.buttons a {
+  opacity: 0.3;
+  cursor: default;
+}
+/* line 137, styles/app.less */
+.buttons a.active {
+  opacity: 1;
+  cursor: pointer;
+}
+/* line 143, styles/app.less */
+.git-info {
+  position: fixed;
+  bottom: 18px;
+  right: 75px;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  vertical-align: middle;
+}
+/* line 152, styles/app.less */
+.git-info > li {
+  font-size: 40px;
+  width: 52px;
+  height: 52px;
+  text-align: center;
+}
+/* line 160, styles/app.less */
+.validation-annotation {
+  position: relative;
+  border-width: 2px;
+  border-color: #FFFFFF;
+  border-style: solid;
+  border-radius: 50%;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+}
+/* line 170, styles/app.less */
+.validation-annotation:hover > .validation-info {
+  display: block;
+}
+/* line 174, styles/app.less */
+.validation-annotation .validation-info {
+  display: none;
+  position: absolute;
+  top: -2px;
+  left: 6px;
+  list-style: none;
+  padding-left: 0;
+  min-width: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 4;
+}
+/* line 186, styles/app.less */
+.validation-annotation .validation-info li {
+  padding: 4px;
+  border-style: solid;
+  border-width: 2px;
+  border-top-width: 0px;
+}
+/* line 193, styles/app.less */
+.validation-annotation .validation-info li:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-width: 2px;
+}
+/* line 199, styles/app.less */
+.validation-annotation .validation-info li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/* line 204, styles/app.less */
+.validation-annotation .validation-info .li-error {
+  background-color: #FDF2F5;
+  border-color: #EC1E0D;
+}
+/* line 209, styles/app.less */
+.validation-annotation .validation-info .li-warning {
+  background-color: #FFFBD5;
+  border-color: #FB9500;
+}
+/* line 214, styles/app.less */
+.validation-annotation .validation-info .li-note {
+  background-color: #f5f5f5;
+  border-color: #848c94;
+}
+/* line 220, styles/app.less */
+.validation-annotation .validation-count {
+  position: absolute;
+  font-weight: bold;
+  color: #111111;
+  left: 2px;
+  top: -6px;
+  text-shadow: 1px 1px 1px #FFFFFF, -1px -1px 1px #FFFFFF, 1px -1px 1px #FFFFFF, -1px 1px 1px #FFFFFF;
+}
+/* line 230, styles/app.less */
+.val-error {
+  position: relative;
+  border-width: 2px;
+  border-color: #FFFFFF;
+  border-style: solid;
+  border-radius: 50%;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: #EC1E0D;
+}
+/* line 170, styles/app.less */
+.val-error:hover > .validation-info {
+  display: block;
+}
+/* line 174, styles/app.less */
+.val-error .validation-info {
+  display: none;
+  position: absolute;
+  top: -2px;
+  left: 6px;
+  list-style: none;
+  padding-left: 0;
+  min-width: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 4;
+}
+/* line 186, styles/app.less */
+.val-error .validation-info li {
+  padding: 4px;
+  border-style: solid;
+  border-width: 2px;
+  border-top-width: 0px;
+}
+/* line 193, styles/app.less */
+.val-error .validation-info li:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-width: 2px;
+}
+/* line 199, styles/app.less */
+.val-error .validation-info li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/* line 204, styles/app.less */
+.val-error .validation-info .li-error {
+  background-color: #FDF2F5;
+  border-color: #EC1E0D;
+}
+/* line 209, styles/app.less */
+.val-error .validation-info .li-warning {
+  background-color: #FFFBD5;
+  border-color: #FB9500;
+}
+/* line 214, styles/app.less */
+.val-error .validation-info .li-note {
+  background-color: #f5f5f5;
+  border-color: #848c94;
+}
+/* line 220, styles/app.less */
+.val-error .validation-count {
+  position: absolute;
+  font-weight: bold;
+  color: #111111;
+  left: 2px;
+  top: -6px;
+  text-shadow: 1px 1px 1px #FFFFFF, -1px -1px 1px #FFFFFF, 1px -1px 1px #FFFFFF, -1px 1px 1px #FFFFFF;
+}
+/* line 235, styles/app.less */
+.val-warning {
+  position: relative;
+  border-width: 2px;
+  border-color: #FFFFFF;
+  border-style: solid;
+  border-radius: 50%;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: #FB9500;
+}
+/* line 170, styles/app.less */
+.val-warning:hover > .validation-info {
+  display: block;
+}
+/* line 174, styles/app.less */
+.val-warning .validation-info {
+  display: none;
+  position: absolute;
+  top: -2px;
+  left: 6px;
+  list-style: none;
+  padding-left: 0;
+  min-width: 180px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 4;
+}
+/* line 186, styles/app.less */
+.val-warning .validation-info li {
+  padding: 4px;
+  border-style: solid;
+  border-width: 2px;
+  border-top-width: 0px;
+}
+/* line 193, styles/app.less */
+.val-warning .validation-info li:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-width: 2px;
+}
+/* line 199, styles/app.less */
+.val-warning .validation-info li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+/* line 204, styles/app.less */
+.val-warning .validation-info .li-error {
+  background-color: #FDF2F5;
+  border-color: #EC1E0D;
+}
+/* line 209, styles/app.less */
+.val-warning .validation-info .li-warning {
+  background-color: #FFFBD5;
+  border-color: #FB9500;
+}
+/* line 214, styles/app.less */
+.val-warning .validation-info .li-note {
+  background-color: #f5f5f5;
+  border-color: #848c94;
+}
+/* line 220, styles/app.less */
+.val-warning .validation-count {
+  position: absolute;
+  font-weight: bold;
+  color: #111111;
+  left: 2px;
+  top: -6px;
+  text-shadow: 1px 1px 1px #FFFFFF, -1px -1px 1px #FFFFFF, 1px -1px 1px #FFFFFF, -1px 1px 1px #FFFFFF;
+}
