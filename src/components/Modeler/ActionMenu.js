@@ -1,4 +1,4 @@
-import {Button, Modal,  notification, Spin, Upload, Icon} from "antd";
+import {Button, Modal, Result, Spin, Upload} from "antd";
 import React, {useState} from "react";
 import {renderModel, saveDiagram, setEncoded} from "./actions";
 import emptyDiagram from "../../model/EmptyDiagram.bpmn";
@@ -10,6 +10,7 @@ export function ActionMenu({modeler}) {
 
     const acceptedFile = ".bpmn, .xml"
     const [loading, setLoading] = useState(false);
+    const [uploaded, setUploaded] = useState(false);
 
 
     //ToDO cambiare in moddale ed inserire un edit per specificare il nome del file.
@@ -32,7 +33,8 @@ export function ActionMenu({modeler}) {
                     .then(res => {
                         console.log("File uploaded ", res);
                         setLoading(false);
-                        fileUploaded();
+                        //Todo creare una finestra
+                        setUploaded(true);
                     })
             },
 
@@ -79,19 +81,39 @@ export function ActionMenu({modeler}) {
                     <Spin tip="Loading..."/>
                 </div>
             }
+            {
+                uploaded && <Modal
+                    title="Basic Modal"
+                    visible={uploaded}
+                    onOk={
+                        () => {
+                            setUploaded(false);
+                            renderModel(modeler, emptyDiagram);
+                        }
+                    }
+                    onCancel={() => setUploaded(false)}
+                >
+                    <UploadedResult/>
+                </Modal>
+            }
         </>
     )
 }
 
 
-const fileUploaded = () => {
-    notification.success({
-        message: 'File uploaded',
-        description:
-            'The file .... has been correclty uploaded to the server and ready to be processed.',
-        icon: <Icon type="smile" style={{ color: '#108ee9' }} />,
-    });
-};
+function UploadedResult() {
+    return (
+        <Result
+            status="success"
+            title="Successfully uploaded model!"
+            subTitle="Model name: aaa.bpmn."
+            extra={[
+                <Button type="primary" key="console">
+                    Process it
+                </Button>,
+            ]}
+        />)
+}
 
 const newModel = (modeler) => {
     confirm({
