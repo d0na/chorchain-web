@@ -1,4 +1,4 @@
-import {Modeler} from "./Modeler";
+import {Modeler} from "./Modeler/Modeler";
 import {Home} from "./Home";
 import React from "react";
 import {Route, Switch} from "react-router-dom";

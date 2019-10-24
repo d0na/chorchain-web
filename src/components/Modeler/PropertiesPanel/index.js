@@ -3,8 +3,8 @@ import React, {useEffect} from 'react';
 
 import PropertiesView from './PropertiesView';
 import ChorModeler from "chor-js/lib/Modeler";
-import customModdleExtension from "../../moddle/custom";
-import Reporter from "../../lib/validator/Validator";
+import customModdleExtension from "../../../moddle/custom";
+import Reporter from "../../../lib/validator/Validator";
 
 
 export function  PropertiesPanel(props){
