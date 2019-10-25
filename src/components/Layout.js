@@ -19,12 +19,13 @@ export function AppHeader() {
             <Menu
                 // theme="dark"
                 mode="horizontal"
-                defaultSelectedKeys={['2']}
+                defaultSelectedKeys={['1']}
                 style={{lineHeight: '64px'}}
             >
-                <Menu.Item key="1"><Link to="/home">Home</Link></Menu.Item>
-                <Menu.Item key="2"><Link to="/modeler">Modeler</Link></Menu.Item>
-                <Menu.Item key="3"><Link to="/personal">PersonalPage</Link></Menu.Item>
+                <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
+                <Menu.Item key="2"><Link to="/design">Model Design</Link></Menu.Item>
+                <Menu.Item key="3"><Link to="/deploy">Model Deploy</Link></Menu.Item>
+                <Menu.Item key="4"><Link to="/dapp">Model Dapp Interaction</Link></Menu.Item>
             </Menu>
         </Header>
     )

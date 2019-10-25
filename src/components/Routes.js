@@ -7,11 +7,12 @@ export function Routes() {
 
     return (
         <Switch>
-            <Route path="/about"/>
-            <Route path="/modeler">
+            <Route path="/dapp"/>
+            <Route path="/deploy"/>
+            <Route path="/design">
                 <Modeler/>
             </Route>
-            <Route path="/home">
+            <Route path="/">
                 <Home/>
             </Route>
         </Switch>
