@@ -1,21 +1,33 @@
 import {ModelList} from "./ModelList";
 import React from "react";
+import useAxios from "axios-hooks";
 
 export function Deploy() {
-    const listData = [];
-    for (let i = 0; i < 23; i++) {
-        listData.push({
-            // href: 'http://ant.design',
-            title: `Model name ${i}`,
-            avatar: 'https://avatars3.githubusercontent.com/u/6481734?s=200&v=4',
-            description:
-                'Model description added in the mongo DB //TODO',
-            // content:
-            //     'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-        });
-    }
+
+
+    const [{data, loading, error, response}, refetch] = useAxios(
+        {url: 'api/getModels', method: 'POST'}
+    )
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error! {JSON.stringify(error)}</p>
 
     return (
-        <ModelList dataSource={listData}/>
+        <div>
+            <Description/>
+            <strong>{'TODO - Insert an input field to perfom a model search'}</strong>
+            <ModelList dataSource={data}/>
+            {console.log(" ss", data)}
+        </div>
     );
+}
+
+
+
+const Description = () =>{
+    return(
+        <div>
+            <h1>Model list</h1>
+            <p>Explanation here</p>
+        </div>
+    )
 }
