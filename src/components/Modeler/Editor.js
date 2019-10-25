@@ -18,6 +18,7 @@ export function Editor() {
 
     return (
         <>
+
             <ActionMenu modeler={modeler}/>
             <div id="canvas" style={{height: 500, border: '1px solid grey'}}/>
             <PropertiesView modeler={modeler}/>
