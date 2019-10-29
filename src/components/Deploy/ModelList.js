@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Avatar, Button, Descriptions, Divider, Drawer, Empty, Icon, List, Modal} from "antd";
+import axios from 'axios';
 
 export function ModelList({dataSource}) {
 
@@ -69,15 +70,19 @@ export function ModelList({dataSource}) {
                 )}
             />
             {showModelDetail && <ModelDetail model={model}
-                                                    visible={showModelDetail}
-                                                    hide={() => setShowModelDetail(false)}
+                                             visible={showModelDetail}
+                                             hide={() => setShowModelDetail(false)}
 
             />}
-            {showCreateInstance && <CreateInstance model={model}
-                                                   visible={showCreateInstance}
-                                                   hide={() => setShowCreateInstance(false)}
-
-            />}
+            {
+                showCreateInstance &&
+                <CreateInstance
+                    // userId={}
+                    model={model}
+                    visible={showCreateInstance}
+                    hide={() => setShowCreateInstance(false)}
+                />
+            }
         </>
     )
 }
@@ -139,8 +144,19 @@ function InstanceRow({data}) {
 }
 
 
-function CreateInstance({model, visible, hide}) {
-    console.log("model ", model)
+function CreateInstance({model, visible, hide, userId}) {
+    console.log("model ", model);
+
+    const handleOnClick = (id) => {
+        const instanceData = {modelID: model.id, optional: ["Buyer"], mandatory: ["Seller"], visibleAt: ["null"]};
+        axios.post(`api/createInstance/${id}`, instanceData).then(function (response) {
+            console.log(response);
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     return (
         <Modal
             title="Create a new model istance"
@@ -149,9 +165,29 @@ function CreateInstance({model, visible, hide}) {
             onCancel={hide}
             width={800}
         >
-            dd
+            <Button onClick={() => handleOnClick('5dadb861b7f056dc17e24a25')}>New instance</Button>
         </Modal>
     )
 }
 
 
+function NewInstanceForm() {
+//     React.useEffect(() => {
+//         if (props.value.domain !== undefined) {
+//             props.form.validateFields();
+//         }
+//     }, [props.value.domain]);
+//
+//     console.log('DomainFormFinder ', props);
+//     const { getFieldDecorator, getFieldsError } = props.form;
+//     const isEmptyDomain = props.form.getFieldValue('domain') === undefined;
+//     const enableSubmit = hasErrors(getFieldsError()) || isEmptyDomain;
+// }
+//     return (
+//         <Form layout="inline" onSubmit={e => handleSubmit(e, props.form, props.onSubmit)}>
+//
+//         </Form>
+//     )
+}
+
+// const NewInstance =  Form.create()(NewInstanceForm);
