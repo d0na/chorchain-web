@@ -2,7 +2,8 @@ import {Button, Input, Modal, notification, Result, Spin, Upload as Import} from
 import React, {useState} from "react";
 import {renderModel, saveDiagram, setEncoded} from "./actions";
 import emptyDiagram from "../../model/EmptyDiagram.bpmn";
-import $ from "jquery"; //TODO capire se jquery è necessario e nel caso rimuoverlo dalle dipendenze se NO
+import $ from "jquery";
+import axios from "axios"; //TODO capire se jquery è necessario e nel caso rimuoverlo dalle dipendenze se NO
 
 const {confirm} = Modal;
 
@@ -15,6 +16,7 @@ export function ActionMenu({modeler}) {
     const [showInput, setShowInput] = useState(false);
     const [showUploaded, setShowUploaded] = useState(false);
     const [filename, setFilename] = useState(false);
+    const [error, setError] = useState({});
 
 
     const onChangeInput = (e) => {
@@ -93,31 +95,43 @@ export function ActionMenu({modeler}) {
                             var fileXml;
                             modeler.saveXML({format: true}, function (err, xml) {
                                 setLoading(true);
-                                console.log("xml file ", xml)
+                                // console.log("xml file ", xml)
                                 fileXml = xml;
                             });
 
 
-                            fetch(`api2/model`,
+                            // fetch(`api2/model`,
+                            //     // fetch(`api/saveModel/${filename}/5dadb861b7f056dc17e24a25`,
+                            //     {
+                            //         method: 'POST',
+                            //         body: JSON.stringify({filename: filename, data: fileXml}),
+                            //         headers: {
+                            //             'Accept': 'application/json', 'Content-Type': 'application/json'
+                            //         }
+                            //     })
+                            axios.post(`api2/model`,
                                 // fetch(`api/saveModel/${filename}/5dadb861b7f056dc17e24a25`,
+                                JSON.stringify({filename: filename, data: fileXml}),
                                 {
-                                    method: 'POST',
-                                    body: JSON.stringify({filename: filename, data: fileXml}),
                                     headers: {
                                         'Accept': 'application/json', 'Content-Type': 'application/json'
                                     }
                                 })
                                 .then(res => {
                                     setLoading(false);
-                                    if (res.status == 204) {
+                                    if (res.status == 201) {
                                         console.log("File uploaded ", res);
                                         setShowInput(false);
                                         setShowUploaded(true);
+
                                     } else {
-                                        console.log("err ");
+                                        setError(res.data);
                                         //todo notifica errore
                                     }
-                                })
+                                }).catch((e) => {
+                                setLoading(false);
+                                setError(e);
+                            })
 
                         }
                     }
@@ -132,6 +146,7 @@ export function ActionMenu({modeler}) {
                         onChange={onChangeInput}
                         addonAfter=".bpmn"
                     />
+                    {error && <div style={{color: 'red'}}>{error.message}</div>}
                 </Modal>
             }
         </>
