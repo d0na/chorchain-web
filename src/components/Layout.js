@@ -1,13 +1,36 @@
 import logo from "../ChorChain_logo.png";
-import {Layout, Menu} from "antd";
-import React from "react";
+import {Avatar, Dropdown, Layout, Menu} from "antd";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import * as axios from "axios";
+import {useAuth} from "./Authentication/context/auth";
 
 const {Header, Footer, Content} = Layout;
 
 export function AppHeader() {
+
+    const {isAuthenticated, setAuthenticated,user} = useAuth();
+
+    const handleOnClick = () => {
+        axios.post('api2/logout').then((result) => {
+                console.log(" result", result)
+                if (result.status === 200) {
+                    setAuthenticated(false)
+                }
+            }
+        );
+    }
+
+    console.log(" user",user)
+
     return (
-        <Header style={{height: 85}}>
+        <Header style={{
+            height: 85,
+            // width: '100%',
+            // display: 'flex',
+            backgroundColor: 'white',
+            // justifyContent: "space-between"
+        }}>
             <Link to="/">
                 <img src={logo} className="App-logo" alt="logo"
                      style={{
@@ -16,8 +39,15 @@ export function AppHeader() {
                          float: 'left'
                      }}/>
             </Link>
+            {isAuthenticated &&
+            <div style={{float: 'right', marginRight: 50}}>
+                <Dropdown overlay={<User user={user}/>}>
+                    <Avatar>{user.address}</Avatar>
+                </Dropdown>
+            </div>}
             <Menu
                 // theme="dark"
+                style={{width:500}}
                 mode="horizontal"
                 defaultSelectedKeys={['1']}
                 style={{lineHeight: '64px'}}
@@ -26,7 +56,9 @@ export function AppHeader() {
                 <Menu.Item key="2"><Link to="/design">Model Design</Link></Menu.Item>
                 <Menu.Item key="3"><Link to="/deploy">Model Deploy</Link></Menu.Item>
                 <Menu.Item key="4"><Link to="/dapp">Model Dapp Interaction</Link></Menu.Item>
+
             </Menu>
+
         </Header>
     )
 }
@@ -38,7 +70,7 @@ export function AppFooter() {
 
 
 export function AppContent(props) {
-    return <Content style={{backgroundColor: 'white', marginLeft: 50, marginRight: 50}}>
+    return <Content style={{backgroundColor: 'white', marginLeft: 50, marginRight: 50, marginTop: 20}}>
         {/*<div style={{marginLeft: 50, marginRight: 50, backgroundColor: '#ededed'}}>*/}
         {props.children}
         {/*</div>*/}
@@ -47,5 +79,27 @@ export function AppContent(props) {
 
 export function AppLayout(props) {
     return <Layout style={{height: '95vh'}}>{props.children}</Layout>
+}
+
+
+function User(props) {
+    const {setAuthenticated} = useAuth();
+    return (
+        <Menu>
+            <Menu.Item key="0" disabled>
+                Address: {props.user.address}
+            </Menu.Item>
+            <Menu.Item key="1" disabled>
+                Id: {props.user.id}
+            </Menu.Item>
+            <Menu.Item key="2" disabled>
+                Created: {props.user.created}
+            </Menu.Item>
+            <Menu.Divider/>
+            <Menu.Item key="" onClick={() => setAuthenticated(false)}>
+                Logout
+            </Menu.Item>
+        </Menu>
+    )
 }
 

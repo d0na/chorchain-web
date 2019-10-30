@@ -3,17 +3,18 @@ import {Home} from "./Home";
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 import {Deploy} from "./Deploy/Deploy";
+import PrivateRoute from "./Authentication/PrivateRoute";
+import Login from "./Login";
 
 export function Routes() {
 
     return (
         <Switch>
+            <PrivateRoute path="/deploy" component={Deploy}/>
+            <PrivateRoute path="/design" component={Modeler}/>
             <Route path="/dapp"/>
-            <Route path="/deploy">
-                <Deploy/>
-            </Route>
-            <Route path="/design">
-                <Modeler/>
+            <Route path="/login">
+                <Login/>
             </Route>
             <Route path="/">
                 <Home/>

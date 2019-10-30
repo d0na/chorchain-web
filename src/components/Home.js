@@ -2,17 +2,17 @@ import React from 'react';
 import Login from "./Login";
 import {Button, Card, Col, Row} from "antd";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 export function Home() {
     return <div>
-        <Login user={'0xE217F7b9EBDC734c287ECa2E981D3B93cE90B2dfD'}/>
         <h1>Welcome to ChorChain</h1>
 
         <p>Introduction to ChorChain plattaform </p>
 
-        <Button>Learn more</Button><Button>About</Button>
+        <Button onClick={() => LoadInfo()}>Learn more</Button><Button>About</Button>
 
-        <div style={{background: '#ECECEC', padding: '30px',marginTop:30}}>
+        <div style={{background: '#ECECEC', padding: '30px', marginTop: 30}}>
             <Row gutter={16}>
                 <Col span={8}>
                     <Card title="Design" bordered={false} style={{textAlign: 'center'}}>
@@ -35,4 +35,10 @@ export function Home() {
             </Row>
         </div>
     </div>
+}
+
+
+function LoadInfo(id) {
+
+    axios.get('api2/users/1').then((r) => console.log(" re", r, r.data)).catch((e) => console.log(" e", e));
 }

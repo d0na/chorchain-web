@@ -98,10 +98,14 @@ export function ActionMenu({modeler}) {
                             });
 
 
-                            fetch(`api/saveModel/${filename}/5dadb861b7f056dc17e24a25`,
+                            fetch(`api2/model`,
+                                // fetch(`api/saveModel/${filename}/5dadb861b7f056dc17e24a25`,
                                 {
                                     method: 'POST',
-                                    body: fileXml
+                                    body: JSON.stringify({filename: filename, data: fileXml}),
+                                    headers: {
+                                        'Accept': 'application/json', 'Content-Type': 'application/json'
+                                    }
                                 })
                                 .then(res => {
                                     setLoading(false);
