@@ -6,7 +6,7 @@ export function Deploy() {
 
 
     const [{data, loading, error, response}, refetch] = useAxios(
-        {url: 'api/getModels', method: 'POST'}
+        {url: 'api2/model', method: 'GET'}
     )
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error! {JSON.stringify(error)}</p>
@@ -16,7 +16,6 @@ export function Deploy() {
             <Description/>
             <strong>{'TODO - Insert an input field to perfom a model search'}</strong>
             <ModelList dataSource={data}/>
-            {console.log(" ss", data)}
         </div>
     );
 }

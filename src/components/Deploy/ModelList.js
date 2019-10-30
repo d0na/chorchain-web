@@ -8,6 +8,7 @@ export function ModelList({dataSource}) {
     const [model, setModel] = useState([]);
     const [showCreateInstance, setShowCreateInstance] = useState(false);
 
+    console.log("ss ",dataSource)
     return (
         <>
             <List
@@ -19,7 +20,7 @@ export function ModelList({dataSource}) {
                     },
                     pageSize: 5,
                 }}
-                dataSource={dataSource}
+                dataSource={dataSource.elements}
                 // footer={
                 //     <div>
                 //         <b>ant design</b> footer part
@@ -37,7 +38,8 @@ export function ModelList({dataSource}) {
                                 }
                             }><IconText type="tool" text="Create new instance" key="list-vertical-tool"/>
                             </span>,
-                            <IconText type="profile" text={`Instances ${item.instances.length}`}
+                            <IconText type="profile"
+                                      // text={`Instances ${item.instances.length}`}
                                       key="list-vertical-eye"/>,
                             <IconText type="delete" text="Delete" key="list-vertical-delete"/>,
                         ]}
@@ -64,7 +66,7 @@ export function ModelList({dataSource}) {
                         />
                         <span>
                     <div>Id:<span style={{color: "coral"}}>{item.id}</span></div>
-                    <div>User:<span style={{color: "cadetblue"}}>{item.uploadedBy}</span></div>
+                    <div>User:<span style={{color: "cadetblue"}}>{item.address}</span></div>
                     </span>
                     </List.Item>
                 )}
