@@ -1,7 +1,7 @@
 import logo from "../ChorChain_logo.png";
 import {Avatar, Dropdown, Layout, Menu} from "antd";
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link,useLocation} from "react-router-dom";
 import * as axios from "axios";
 import {useAuth} from "./Authentication/context/auth";
 
@@ -10,7 +10,7 @@ const {Header, Footer, Content} = Layout;
 export function AppHeader() {
 
     const {isAuthenticated, setAuthenticated,user} = useAuth();
-
+    let location = useLocation();
     const handleOnClick = () => {
         axios.post('api2/logout').then((result) => {
                 console.log(" result", result)
@@ -21,6 +21,9 @@ export function AppHeader() {
         );
     }
 
+
+
+    console.log(" id",location)
     console.log(" user",user)
 
     return (
@@ -49,13 +52,13 @@ export function AppHeader() {
                 // theme="dark"
                 style={{width:500}}
                 mode="horizontal"
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={location.pathname}
                 style={{lineHeight: '64px'}}
             >
-                <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
-                <Menu.Item key="2"><Link to="/design">Model Design</Link></Menu.Item>
-                <Menu.Item key="3"><Link to="/deploy">Model Deploy</Link></Menu.Item>
-                <Menu.Item key="4"><Link to="/dapp">Model Dapp Interaction</Link></Menu.Item>
+                <Menu.Item key="/"><Link to="/">Home</Link></Menu.Item>
+                <Menu.Item key="/design"><Link to="/design">Choreography Design</Link></Menu.Item>
+                <Menu.Item key="/deploy"><Link to="/deploy">Choreography Deploy</Link></Menu.Item>
+                <Menu.Item key="/dapp"><Link to="/dapp">Choreography Dapp Interaction</Link></Menu.Item>
 
             </Menu>
 
