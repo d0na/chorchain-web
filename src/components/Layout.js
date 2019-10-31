@@ -1,5 +1,5 @@
 import logo from "../ChorChain_logo.png";
-import {Avatar, Dropdown, Layout, Menu} from "antd";
+import {Avatar, Dropdown, Icon, Layout, Menu} from "antd";
 import React, {useEffect, useState} from "react";
 import {Link,useLocation} from "react-router-dom";
 import * as axios from "axios";
@@ -42,12 +42,13 @@ export function AppHeader() {
                          float: 'left'
                      }}/>
             </Link>
-            {isAuthenticated &&
+
             <div style={{float: 'right', marginRight: 50}}>
-                <Dropdown overlay={<User user={user}/>}>
+                {isAuthenticated && <Dropdown overlay={<User user={user}/>}>
                     <Avatar>{user.address}</Avatar>
-                </Dropdown>
-            </div>}
+                </Dropdown>}
+                {!isAuthenticated && <Link to={'/login'}><Icon type="login" /> login</Link>}
+            </div>
             <Menu
                 // theme="dark"
                 style={{width:500}}

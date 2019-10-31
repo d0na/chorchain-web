@@ -5,6 +5,7 @@ import {Route, Switch} from "react-router-dom";
 import {Deploy} from "./Deploy/Deploy";
 import PrivateRoute from "./Authentication/PrivateRoute";
 import Login from "./Login";
+import Signup from "./Signup";
 
 export function Routes() {
 
@@ -15,6 +16,9 @@ export function Routes() {
             <Route path="/dapp"/>
             <Route path="/login">
                 <Login/>
+            </Route>
+            <Route path="/signup">
+                <Signup/>
             </Route>
             <Route path="/">
                 <Home/>

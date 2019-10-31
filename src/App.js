@@ -13,7 +13,7 @@ import {AuthContext} from "./components/Authentication/context/auth";
 
 
 function App() {
-    const [isAuthenticated, setAuthenticated] = useState(true);
+    const [isAuthenticated, setAuthenticated] = useState(false);
     const [user, setUser] = useState({});
     return (
         <AuthContext.Provider value={{isAuthenticated, setAuthenticated, user, setUser}}>

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Button, Form, Icon, Input, Result, Row} from "antd";
+import {Button, Form, Icon, Input, notification, Result, Row} from "antd";
 import qs from 'querystring';
 import axios from "axios";
-import {Link, Redirect} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {useAuth} from "./Authentication/context/auth";
 
 const FormItem = Form.Item;
@@ -11,33 +11,37 @@ function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
-const LoginForm = (props) => {
+const SignupForm = (props) => {
 
-    const {isAuthenticated, setAuthenticated,user,setUser} = useAuth();
     const [isError, setIsError] = useState(false);
+    const [isCreated, setCreated] = useState(false);
     const [error, setError] = useState("");
     const [password, setPassword] = useState("");
     const [address, setAddress] = useState("");
 
-    function postLogin(props) {
+    function postNewUser(props) {
         setIsError(false);
         setError("");
 
-        const data = qs.stringify({
+        const data = {
             address: address,
             password: password
-        });
-        axios.post('api2/login',
+        };
+        axios.post('api2/signin',
             data,
             // {
             //     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             // }
         )
             .then(result => {
-                if (result.status === 200) {
+                if (result.status === 201) {
 
-                    setAuthenticated(true);
-                    return axios.get(`api2/users/${address}`).then(result => result.status == 200 ? setUser(result.data) : '')
+                    notification['success']({
+                        message: 'Created new user',
+                        description:
+                            `A new user with address ${address} was successfully created`,
+                    });
+                    setCreated(true);
                 } else {
                     setIsError(true);
                     setError(result.data.message);
@@ -50,16 +54,16 @@ const LoginForm = (props) => {
 
     const {getFieldDecorator, getFieldsError} = props.form;
 
-    if (isAuthenticated) {
-        return <Redirect to="/"/>;
+    if (isCreated) {
+        return <Redirect to="/login"/>;
     }
 
     return (
         <div>
             <Result
                 // style={{width:'100%',height:'100%'}}
-                icon={<Icon type="login"/>}
-                title="Login"
+                icon={<Icon type="user-add"/>}
+                title="Register new user"
                 // subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
             />
             <div
@@ -99,10 +103,9 @@ const LoginForm = (props) => {
                     <FormItem>
                         <Row style={{display:'flex',justifyContent:'space-between'}}>
                             <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}
-                                    onClick={postLogin}>
-                                Log in
+                                    onClick={postNewUser}>
+                                Register
                             </Button>
-                                <Link to={'/signup'}>sing up</Link>
                         </Row>
                     </FormItem>
                 </Form>
@@ -110,6 +113,6 @@ const LoginForm = (props) => {
         </div>
     )
 }
-const Login = Form.create()(LoginForm)
+const Signup = Form.create()(SignupForm)
 
-export default Login;
+export default Signup;
