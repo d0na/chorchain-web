@@ -16,19 +16,19 @@ export function Home() {
             <Row gutter={16}>
                 <Col span={8}>
                     <Card title="Design" bordered={false} style={{textAlign: 'center'}}>
-                        <p> Design a bpmn coreography model</p>
+                        <p> Design a bpmn choreography model</p>
                         <Link to={'/design'}><Button>Design</Button></Link>
                     </Card>
                 </Col>
                 <Col span={8}>
                     <Card title="Deploy" bordered={false} style={{textAlign: 'center'}}>
-                        <p> Deploy an uploaded bpmn coreography model</p>
+                        <p> Deploy an uploaded bpmn choreography model</p>
                         <Link to={'/deploy'}><Button>Deploy</Button></Link>
                     </Card>
                 </Col>
                 <Col span={8}>
                     <Card title="Dapp Interaction" bordered={false} style={{textAlign: 'center'}}>
-                        <p> Interact with a delpoyed bpmn coreography dapp </p>
+                        <p> Interact with a delpoyed bpmn choreography dapp </p>
                         <Link to={'/dapp'}><Button>Dapp interaction</Button></Link>
                     </Card>
                 </Col>
