@@ -1,5 +1,32 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+Prima eseguire l'installazione di `yarn` [installation](https://yarnpkg.com/lang/en/docs/install/) se non già presente
+
+## Sviluppo e note
+
+Per partire in modalità sviluppo è necessario andare nella root del progetto e lanciare lo script `start`
+
+```
+$ cd chorchain-web  
+$ yarn run start
+```
+
+A questo punto si è in *modalità sviluppo* e tutte le modifiche apportate al codice Javascript verrano visualizzate subito nel browser. Questa modalità infatti prevede l'**hot reloading**, che appena si accorge di una modifica ricompila e visualizza il nuovo codice.
+
+La modalità di sviluppo prevede l'impiego di un proxy interno e configurabile tramite il file `setupProxy.js`
+Il proxy interno può essere configurato verso più servizi esterni (REST) intercettabili con ad esempio un certo prefisso (/api, /rest, /apiv1, /apiv2, ...)
+
+
+Altre cose da conoscere:
+
+- per il routing si utilizza la libreria *React-router*
+- per lo sviluppo con React si utilizza e consiglia la nuova modalità di sviluppo che impiega gli *hooks*
+- per le chiamate agli endpoint REST si utilizza *axios* e *fetch* (con la preferenza verso axios)
+
+Attualmente il codice è scritto in maniera (poco standard) e un po' confusionaria perchè è stato scritto molto velocemente per la fase prototipale. Seguirà una fase di ristrutturazione.
+ 
+ 
 ## Available Scripts
 
 In the project directory, you can run:
