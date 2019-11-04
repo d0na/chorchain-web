@@ -1,16 +1,27 @@
 import React, {useState} from "react";
-import {Avatar, Button, Descriptions, Divider, Drawer, Empty, Icon, List, Modal} from "antd";
+import {Avatar, Button, Descriptions, Divider, Drawer, Icon, List, Modal, Spin} from "antd";
 import axios from 'axios';
 
-export function ModelList({dataSource}) {
+function ModelList({dataSource}) {
 
     const [showModelDetail, setShowModelDetail] = useState(false);
     const [model, setModel] = useState([]);
     const [showCreateInstance, setShowCreateInstance] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    console.log("ss ",dataSource)
+    const handleOnDelete = (id) => {
+        setLoading(true)
+        deleteModel(id).then((result) => {
+            if (result.status === 200) {
+                setLoading(false);
+                window.location.reload();
+            }
+        })
+    }
+
     return (
         <>
+            {loading && <Spin/>}
             <List
                 itemLayout="vertical"
                 // size="normal"
@@ -31,17 +42,22 @@ export function ModelList({dataSource}) {
                         style={{marginLeft: 20, marginRight: 20}}
                         key={item.title}
                         actions={[
+
                             <span onClick={
                                 () => {
                                     setModel(item);
                                     setShowCreateInstance(true);
                                 }
-                            }><IconText type="tool" text="Create new instance" key="list-vertical-tool"/>
+                            }>
+                                <IconText type="tool" text="Create new instance" key="list-vertical-tool"/>
                             </span>,
+
                             <IconText type="profile"
-                                      // text={`Instances ${item.instances.length}`}
+                                // text={`Instances ${item.instances.length}`}
                                       key="list-vertical-eye"/>,
-                            <IconText type="delete" text="Delete" key="list-vertical-delete"/>,
+
+                            <span onClick={() => handleOnDelete(item.id)}> <IconText
+                                type="delete" text="Delete" key="list-vertical-delete"/></span>
                         ]}
                         extra={
                             <img
@@ -62,7 +78,7 @@ export function ModelList({dataSource}) {
                             >
                                 {item.name}
                             </span>}
-                            description={'Model description added in the mongo DB //TODO'}
+                            description={item.description}
                         />
                         <span>
                     <div>Id:<span style={{color: "coral"}}>{item.id}</span></div>
@@ -88,6 +104,8 @@ export function ModelList({dataSource}) {
         </>
     )
 }
+
+export default ModelList;
 
 const IconText = ({type, text}) => (
     <span>
@@ -117,7 +135,10 @@ function ModelDetail({model, visible, hide}) {
                         {model.roles && model.roles.map((r, i) => <li key={i}>{r}</li>)}
                     </ul>
                 </Descriptions.Item>
-                <Descriptions.Item label="Created instances">{model.instances.length}</Descriptions.Item>
+                <Descriptions.Item label="Created instances">
+                    {/*{model.instances.length}*/}
+                    n.a.
+                </Descriptions.Item>
             </Descriptions>
             <div style={{float: 'right', margin: 10}}>
                 <Button type={'primary'} onClick={() => setShowCreateInstance(true)}>Create instance</Button>
@@ -125,8 +146,8 @@ function ModelDetail({model, visible, hide}) {
             </div>
             <Divider/>
             <div>
-                {model.instances && model.instances.map((i, key) => <InstanceRow data={i} key={key}/>)}
-                {model.instances.length === 0 && <Empty description={'No instances'}/>}
+                {/*{model.instances && model.instances.map((i, key) => <InstanceRow data={i} key={key}/>)}*/}
+                {/*{model.instances.length === 0 && <Empty description={'No instances'}/>}*/}
             </div>
             {showCreateInstance &&
             <CreateInstance
@@ -170,6 +191,21 @@ function CreateInstance({model, visible, hide, userId}) {
             <Button onClick={() => handleOnClick('5dadb861b7f056dc17e24a25')}>New instance</Button>
         </Modal>
     )
+}
+
+
+function deleteModel(id) {
+    console.log("model ", id);
+
+    return axios.delete(`api2/model/${id}`).then(function (response) {
+
+        return response;
+
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+
 }
 
 

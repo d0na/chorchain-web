@@ -3,7 +3,8 @@ import React, {useState} from "react";
 import {renderModel, saveDiagram, setEncoded} from "./actions";
 import emptyDiagram from "../../model/EmptyDiagram.bpmn";
 import $ from "jquery";
-import axios from "axios"; //TODO capire se jquery è necessario e nel caso rimuoverlo dalle dipendenze se NO
+import axios from "axios";
+import {Link} from "react-router-dom"; //TODO capire se jquery è necessario e nel caso rimuoverlo dalle dipendenze se NO
 
 const {confirm} = Modal;
 
@@ -15,12 +16,20 @@ export function ActionMenu({modeler}) {
 
     const [showInput, setShowInput] = useState(false);
     const [showUploaded, setShowUploaded] = useState(false);
-    const [filename, setFilename] = useState(false);
+    const [filename, setFilename] = useState('');
+    const [description, setDescription] = useState('');
     const [error, setError] = useState({});
+
+
+    const {TextArea} = Input;
 
 
     const onChangeInput = (e) => {
         setFilename(e.target.value);
+    };
+
+    const onChangeTextArea = (e) => {
+        setDescription(e.target.value);
     };
 
     return (
@@ -99,7 +108,11 @@ export function ActionMenu({modeler}) {
                                 fileXml = xml;
                             });
 
-
+                            console.log(" data", JSON.stringify({
+                                filename: filename,
+                                description: description,
+                                data: fileXml
+                            }),)
                             // fetch(`api2/model`,
                             //     // fetch(`api/saveModel/${filename}/5dadb861b7f056dc17e24a25`,
                             //     {
@@ -111,7 +124,7 @@ export function ActionMenu({modeler}) {
                             //     })
                             axios.post(`api2/model`,
                                 // fetch(`api/saveModel/${filename}/5dadb861b7f056dc17e24a25`,
-                                JSON.stringify({filename: filename, data: fileXml}),
+                                JSON.stringify({filename: filename, description: description, data: fileXml}),
                                 {
                                     headers: {
                                         'Accept': 'application/json', 'Content-Type': 'application/json'
@@ -146,6 +159,10 @@ export function ActionMenu({modeler}) {
                         onChange={onChangeInput}
                         addonAfter=".bpmn"
                     />
+                    <label><strong>Description:</strong></label>
+                    <TextArea
+                        onChange={onChangeTextArea}
+                        rows={4}/>
                     {error && <div style={{color: 'red'}}>{error.message}</div>}
                 </Modal>
             }
@@ -164,6 +181,10 @@ function UploadedResult({filename}) {
                 <Button type="primary" key="console">
                     Process it
                 </Button>,
+                <Link to={'/deploy'}><Button type="primary" key="console">
+                    Go to deploy page
+                </Button>
+                </Link>
             ]}
         />)
 }
